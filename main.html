@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Jason Adianto — Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FCFCFA;
+    --surface: #F1F0EB;
+    --ink: #14151A;
+    --ink-soft: #53555E;
+    --muted: #90929A;
+    --accent: #4A3DF2;
+    --accent-tint: #ECEAFE;
+    --line: #E4E3DD;
+    --line-strong: #CFCECA;
+    --dark-bg: #0B0B10;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #101114;
+      --surface: #1A1B20;
+      --ink: #F1F1EE;
+      --ink-soft: #C2C3C8;
+      --muted: #82838B;
+      --accent: #8B80FF;
+      --accent-tint: #201F35;
+      --line: #26272D;
+      --line-strong: #35363E;
+      --dark-bg: #050506;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #101114; --surface: #1A1B20; --ink: #F1F1EE; --ink-soft: #C2C3C8;
+    --muted: #82838B; --accent: #8B80FF; --accent-tint: #201F35;
+    --line: #26272D; --line-strong: #35363E; --dark-bg: #050506;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0; background: var(--bg); color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; }
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+  h1,h2,h3{ font-family: 'Space Grotesk', sans-serif; margin:0; letter-spacing:-0.01em; }
+
+  /* nav */
+  header{ padding: 26px 0; }
+  .nav{ display:flex; align-items:center; justify-content:space-between; }
+  .wordmark{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; text-transform: lowercase; }
+  .nav-links{ display:flex; gap:34px; font-size:14px; color:var(--ink-soft); }
+  .nav-links a{ text-decoration:none; padding-bottom:4px; }
+  .nav-links a.active{ color:var(--ink); border-bottom:2px solid var(--ink); }
+  .nav-links a:hover{ color:var(--accent); }
+  .btn-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--ink); color: var(--bg);
+    padding: 11px 20px; border-radius: 999px; font-size:14px; font-weight:500;
+    text-decoration:none; white-space:nowrap;
+  }
+  .btn-pill:hover{ background: var(--accent); }
+
+  /* hero */
+  .hero{ padding: 56px 0 90px; display:grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .hero-eyebrow{ font-size:16px; color:var(--ink-soft); margin-bottom: 20px; }
+  .photo-card{
+    width: 220px; height: 260px; border-radius: 18px; overflow:hidden;
+    background: var(--surface); border: 1px solid var(--line-strong);
+    margin-bottom: 30px; box-shadow: 0 18px 40px rgba(20,21,26,0.08);
+  }
+  .photo-card img{
+    width: 100%; height: 100%; display:block; object-fit: cover;
+  }
+  .hero h1{ font-size: clamp(3rem, 6vw, 4.6rem); line-height: 0.98; font-weight: 700; }
+  .hero .role{ font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 500; color: var(--ink-soft); margin-top: 8px; }
+
+  .hero-right{ padding-top: 8px; }
+  .hero-right p{ font-size: 16px; line-height: 1.7; color: var(--ink-soft); margin: 0 0 30px; max-width: 46ch; }
+  
+  /* Modified Hero Tiles */
+  .tile-row{ display:flex; gap:14px; }
+  .tile{
+    flex:1; aspect-ratio: 1.35/1; border-radius: 12px; text-decoration:none;
+    display:flex; align-items:flex-end; padding: 12px;
+    color: #fff; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px;
+    position: relative; overflow:hidden;
+    background: var(--surface);
+  }
+  .tile img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    transition: transform 0.3s ease;
+  }
+  .tile:hover img {
+    transform: scale(1.08);
+  }
+  .tile::before {
+    content: ""; 
+    position: absolute; 
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+    z-index: 1;
+  }
+  .tile span{ position: relative; z-index: 2; }
+
+  section{ padding: 80px 0; }
+  .center{ text-align:center; }
+  .section-title{ font-size: clamp(2rem, 4vw, 2.8rem); font-weight:700; }
+  .section-sub{ margin: 18px auto 0; max-width: 56ch; color: var(--ink-soft); font-size:15.5px; line-height:1.7; }
+
+  /* projects grid */
+  .proj-grid{ margin-top: 52px; display:grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .proj-card{ text-decoration:none; color:inherit; }
+  .proj-banner{
+    border-radius: 14px; aspect-ratio: 16/10; position:relative; overflow:hidden;
+    display:flex; align-items:center; padding: 28px;
+    background: var(--surface);
+  }
+  .proj-banner img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .proj-banner::before{
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.18), rgba(0,0,0,0.38));
+    z-index:1;
+  }
+  .proj-banner .label{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; color:#fff;
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem); letter-spacing: -0.01em; position:relative; z-index:2;
+  }
+  .proj-card h3{ margin-top:18px; font-size:19px; font-weight:600; }
+  .proj-card:hover h3{ color: var(--accent); }
+  .proj-tags{ margin-top:10px; display:flex; flex-wrap:wrap; gap:7px; }
+  .proj-tags span{
+    font-size:12.5px; padding:5px 12px; border-radius:999px;
+    border:1px solid var(--line-strong); color: var(--ink-soft);
+  }
+
+  /* expertise */
+  .expertise-grid{ margin-top: 52px; display:grid; grid-template-columns: repeat(4,1fr); gap: 32px; }
+  .exp-icon{
+    width:44px; height:44px; border-radius:10px; background: var(--surface);
+    display:flex; align-items:center; justify-content:center; margin-bottom:18px;
+  }
+  .expertise-grid h3{ font-size:16px; font-weight:600; margin-bottom:10px; }
+  .expertise-grid p{ margin:0; font-size:14px; line-height:1.65; color:var(--ink-soft); }
+
+  /* footer / lets talk */
+  .talk{ background: var(--dark-bg); color: #EDEDEF; padding: 100px 0 0; margin-top: 20px; }
+  .talk-inner{ text-align:center; padding-bottom: 70px; }
+  .talk h2{ font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight:700; color:#fff; }
+  .talk p{ margin: 22px auto 0; max-width: 50ch; color: var(--accent); font-size:15.5px; line-height:1.7; }
+  .talk .btn-pill{ margin-top: 34px; background:#fff; color:#111; }
+  .talk .btn-pill:hover{ background: var(--accent); color:#fff; }
+  .foot-bottom{
+    border-top: 1px solid #232329; padding: 26px 0; display:flex;
+    justify-content: space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  }
+  .foot-bottom a{ text-decoration:none; color:#B9B9C0; font-size:14px; }
+  .foot-bottom a:hover{ color:#fff; }
+  .foot-links-left, .foot-links-right{ display:flex; gap:26px; }
+
+  @media (max-width: 780px){
+    .hero{ grid-template-columns: 1fr; }
+    .proj-grid{ grid-template-columns: 1fr; }
+    .expertise-grid{ grid-template-columns: 1fr 1fr; }
+    .nav-links{ display:none; }
+  }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="nav">
+      <div class="wordmark">Jason Benoit Adianto</div>
+      <nav class="nav-links">
+        <a href="#top" class="active">Home</a>
+        <a href="#work">Projects</a>
+        <a href="#about">About me</a>
+      </nav>
+      <a class="btn-pill" href="#contact">Let's connect →</a>
+    </div>
+  </header>
+
+  <div class="hero" id="top">
+    <div>
+      <div class="hero-eyebrow">Hi there! I'm</div>
+      <h1>Jason Benoit Adianto</h1>
+      <div class="role">Computer Science Student</div>
+    </div>
+    <div class="hero-right">
+      <p>Studying Computer Science on the Intelligent Systems track at Binus University, Alam Sutera. I build full-stack products and explore where machine learning fits in — face recognition, text classification, and the ordinary software that holds it all together.</p>
+      <div class="tile-row">
+        <a class="tile" href="https://github.com/fishyville/CineWave-frontend" target="_blank" rel="noopener">
+          <img src="cinewave.png" alt="CineWave">
+          <span>CineWave</span>
+        </a>
+        <a class="tile" href="https://github.com/fishyville/ComVis-AOL" target="_blank" rel="noopener">
+          <img src="FaceAttend.png" alt="FaceAttend">
+          <span>FaceAttend</span>
+        </a>
+        <a class="tile" href="https://github.com/fishyville/CreepyDonutFE" target="_blank" rel="noopener">
+          <img src="creepy%20donut.png" alt="Creepy Donut">
+          <span>Creepy Donut</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="work">
+  <div class="wrap center">
+    <h2 class="section-title">Selected Projects</h2>
+    <p class="section-sub">Every project starts with a question — how do you actually make this work? Here's how that question played out across six builds, from booking platforms to face recognition.</p>
+
+    <div class="proj-grid">
+
+      <a class="proj-card" href="https://github.com/fishyville/CineWave-frontend" target="_blank" rel="noopener">
+        <div class="proj-banner">
+          <img src="cinewave.png" alt="CineWave project preview">
+          
+        </div>
+        <h3>Cinema Ticket Booking Platform</h3>
+        <div class="proj-tags"><span>WebApp</span><span>Booking</span><span>Team Project</span></div>
+      </a>
+
+      <a class="proj-card" href="https://github.com/fishyville/ComVis-AOL" target="_blank" rel="noopener">
+        <div class="proj-banner">
+          <img src="FaceAttend.png" alt="FaceAttend project preview">
+          
+        </div>
+        <h3>Face Recognition Attendance System</h3>
+        <div class="proj-tags"><span>Computer Vision</span><span>Python</span><span>Academic</span></div>
+      </a>
+
+      <a class="proj-card" href="https://github.com/fishyville/NLP-Depression" target="_blank" rel="noopener">
+        <div class="proj-banner">
+          <img src="MindScan.png" alt="MindScan project preview">
+         
+        </div>
+        <h3>Depression-risk Text Analysis (Prototype)</h3>
+        <div class="proj-tags"><span>NLP</span><span>Prototype</span><span>Mental Health</span></div>
+      </a>
+
+      <a class="proj-card" href="https://github.com/fishyville/CreepyDonutFE" target="_blank" rel="noopener">
+        <div class="proj-banner">
+          <img src="creepy%20donut.png" alt="Creepy Donut project preview">
+        </div>
+        <h3>E-Commerce with AI Chatbot</h3>
+        <div class="proj-tags"><span>E-commerce</span><span>Chatbot</span><span>Full-stack</span></div>
+      </a>
+
+      <a class="proj-card" href="https://github.com/fishyville/WeChatWhatsappMVC" target="_blank" rel="noopener">
+        <div class="proj-banner">
+          <img src="WeChatMVC.png" alt="Unified Chat Hub project preview">
+        </div>
+        <h3>WhatsApp & WeChat Messaging Client</h3>
+        <div class="proj-tags"><span>Messaging</span><span>API Integration</span><span>Real-time</span></div>
+      </a>
+
+      <a class="proj-card" href="https://github.com/fishyville/QCare" target="_blank" rel="noopener">
+        <div class="proj-banner">
+          <img src="QCare.png" alt="QCare project preview">
+        </div>
+        <h3>Clinic Queue Booking Platform</h3>
+        <div class="proj-tags"><span>Healthcare</span><span>WebApp</span><span>Solo</span></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap center">
+    <h2 class="section-title">Expertise</h2>
+    <div class="expertise-grid" style="text-align:left;">
+      <div>
+        <div class="exp-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="8 6 2 12 8 18"/><polyline points="16 6 22 12 16 18"/></svg></div>
+        <h3>Full-stack engineering</h3>
+        <p>Taking a product from schema to shipped interface — Next.js, ASP.NET, and everything in between.</p>
+      </div>
+      <div>
+        <div class="exp-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3>Computer vision & NLP</h3>
+        <p>Turning pixels and text into signal — face recognition, sentiment and risk detection, wired into working apps.</p>
+      </div>
+      <div>
+        <div class="exp-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <h3>Real-time systems</h3>
+        <p>Queues, live chat, and seat maps that stay correct the moment something changes.</p>
+      </div>
+      <div>
+        <div class="exp-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.5 8.7 8 11 4.5-2.3 8-6 8-11V5z"/></svg></div>
+        <h3>Careful interfaces</h3>
+        <p>Especially for sensitive topics — designing calm, legible UI where trust matters as much as function.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="talk" id="contact">
+  <div class="wrap talk-inner">
+    <h2>Let's Talk</h2>
+    <p>I'm open to internships, junior roles, and interesting collaborations. If you're working on something worth building, I'd love to hear about it.</p>
+  </div>
+  <div class="wrap foot-bottom">
+    <div class="foot-links-left">
+      <a href="#top">Home</a>
+      <a href="#about">About me</a>
+      <a href="#work">Projects</a>
+    </div>
+    <div class="foot-links-right">
+      <a href="https://www.linkedin.com/in/jason-adianto-829a51323/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/fishyville" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
