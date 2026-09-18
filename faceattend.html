@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FaceAttend — Case Study — Jason Benoit Adianto</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FCFCFA;
+    --surface: #F1F0EB;
+    --ink: #14151A;
+    --ink-soft: #53555E;
+    --muted: #90929A;
+    --accent: #4A3DF2;
+    --accent-tint: #ECEAFE;
+    --line: #E4E3DD;
+    --line-strong: #CFCECA;
+    --dark-bg: #0B0B10;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #101114;
+      --surface: #1A1B20;
+      --ink: #F1F1EE;
+      --ink-soft: #C2C3C8;
+      --muted: #82838B;
+      --accent: #8B80FF;
+      --accent-tint: #201F35;
+      --line: #26272D;
+      --line-strong: #35363E;
+      --dark-bg: #050506;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #101114; --surface: #1A1B20; --ink: #F1F1EE; --ink-soft: #C2C3C8;
+    --muted: #82838B; --accent: #8B80FF; --accent-tint: #201F35;
+    --line: #26272D; --line-strong: #35363E; --dark-bg: #050506;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0; background: var(--bg); color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; }
+  img{ max-width: 100%; display:block; }
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+  h1,h2,h3{ font-family: 'Space Grotesk', sans-serif; margin:0; letter-spacing:-0.01em; }
+
+  /* nav */
+  header{ padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; gap: 20px; }
+  .wordmark{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; white-space:nowrap; text-decoration:none; }
+  .nav-links{ display:flex; gap:34px; font-size:14px; color:var(--ink-soft); }
+  .nav-links a{ text-decoration:none; padding-bottom:4px; }
+  .nav-links a:hover{ color:var(--accent); }
+  .btn-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--ink); color: var(--bg);
+    padding: 11px 20px; border-radius: 999px; font-size:14px; font-weight:500;
+    text-decoration:none; white-space:nowrap; border: none; cursor:pointer;
+  }
+  .btn-pill:hover{ background: var(--accent); }
+  .btn-ghost{
+    display:inline-flex; align-items:center; gap:8px;
+    border: 1px solid var(--line-strong); color: var(--ink);
+    padding: 10px 19px; border-radius: 999px; font-size:14px; font-weight:500;
+    text-decoration:none; white-space:nowrap;
+  }
+  .btn-ghost:hover{ border-color: var(--accent); color: var(--accent); }
+  .link-row{ margin-top: 28px; display:flex; gap: 12px; flex-wrap:wrap; }
+
+  /* project hero */
+  .proj-hero{ padding: 56px 0 40px; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-size:14px; color: var(--ink-soft);
+    text-decoration:none; margin-bottom: 26px;
+  }
+  .eyebrow:hover{ color: var(--accent); }
+  .hero-top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 24px; flex-wrap:wrap; }
+  .proj-hero h1{ font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight:700; max-width: 18ch; line-height:1.05; }
+  .tag-row{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+  .tag-pill{
+    font-size:12.5px; padding:6px 14px; border-radius:999px;
+    border:1px solid var(--line-strong); color: var(--ink-soft); white-space:nowrap;
+  }
+
+  .meta-row{
+    margin-top: 46px; display:grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; border-top: 1px solid var(--line); padding-top: 26px;
+  }
+  .meta-item .label{ font-size:12.5px; color: var(--muted); margin-bottom:6px; }
+  .meta-item .value{ font-size:16px; font-weight:600; }
+  .meta-item .value a{ text-decoration:none; }
+  .meta-item .value a:hover{ color: var(--accent); }
+
+  .hero-banner{
+    margin-top: 40px; border-radius: 18px; overflow:hidden;
+    border: 1px solid var(--line-strong); background: var(--surface);
+  }
+
+  section{ padding: 70px 0; }
+  section.tight{ padding-top: 0; }
+  .section-title{ font-size: clamp(1.7rem, 3vw, 2.2rem); font-weight:700; }
+  .section-lede{ margin: 16px 0 0; max-width: 62ch; color: var(--ink-soft); font-size:15.5px; line-height:1.75; }
+
+  /* three-col challenge/solution/what */
+  .col-3{ margin-top: 44px; display:grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card{
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 26px;
+  }
+  .card h3{ font-size:17px; font-weight:600; margin-bottom:14px; }
+  .card ul{ margin:0; padding-left:18px; color: var(--ink-soft); font-size:14.5px; line-height:1.7; }
+  .card ul li{ margin-bottom:10px; }
+  .card ul li:last-child{ margin-bottom:0; }
+  .card ul li b{ color: var(--ink); font-weight:600; }
+
+  /* stat strip */
+  .stat-strip{
+    margin-top: 44px; display:grid; grid-template-columns: repeat(4,1fr); gap:20px;
+    border: 1px solid var(--line); border-radius: 14px; overflow:hidden;
+  }
+  .stat{ padding: 26px 22px; border-right: 1px solid var(--line); }
+  .stat:last-child{ border-right:none; }
+  .stat .num{ font-family:'Space Grotesk',sans-serif; font-size: 30px; font-weight:700; color: var(--accent); }
+  .stat .cap{ margin-top:6px; font-size:13px; color: var(--ink-soft); line-height:1.5; }
+
+  /* figure block */
+  .figure{ margin-top: 44px; }
+  .figure img{
+    border-radius: 14px; border: 1px solid var(--line-strong); background: var(--surface);
+  }
+  .figure figcaption{ margin-top:14px; font-size:13.5px; color: var(--muted); text-align:center; }
+
+  .two-up{ margin-top: 44px; display:grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items:start; }
+  .two-up figcaption{ margin-top:14px; font-size:13.5px; color: var(--muted); text-align:center; }
+  .two-up img{ border-radius: 14px; border: 1px solid var(--line-strong); background: var(--surface); }
+
+  /* process phases */
+  .phase-list{ margin-top: 44px; display:flex; flex-direction:column; gap: 0; }
+  .phase{
+    display:grid; grid-template-columns: 90px 1fr; gap: 24px;
+    padding: 26px 0; border-top: 1px solid var(--line);
+  }
+  .phase:last-child{ border-bottom: 1px solid var(--line); }
+  .phase .ph-num{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color: var(--muted); padding-top:2px; }
+  .phase h3{ font-size:17px; font-weight:600; margin-bottom:8px; }
+  .phase p{ margin:0; color: var(--ink-soft); font-size:14.5px; line-height:1.7; max-width: 68ch; }
+
+  /* feature grid */
+  .feature-grid{ margin-top: 44px; display:grid; grid-template-columns: repeat(2,1fr); gap: 22px; }
+  .feature{
+    border: 1px solid var(--line); border-radius: 14px; padding: 24px;
+  }
+  .feature h3{ font-size:16px; font-weight:600; margin-bottom:10px; display:flex; align-items:center; gap:10px; }
+  .feature .f-icon{
+    width:32px; height:32px; border-radius:8px; background: var(--accent-tint);
+    display:flex; align-items:center; justify-content:center; color: var(--accent); flex-shrink:0;
+  }
+  .feature p{ margin:0; font-size:14px; line-height:1.65; color: var(--ink-soft); }
+
+  /* tech stack */
+  .stack-row{ margin-top: 44px; display:grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+  .stack-col .label{ font-size:12.5px; color: var(--muted); margin-bottom:12px; text-transform:none; }
+  .stack-col .items{ display:flex; flex-direction:column; gap:8px; }
+  .stack-col .items span{ font-size:14.5px; font-weight:500; }
+
+  /* limitations list */
+  .limit-list{ margin-top:44px; display:grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .limit-item{ border-left: 2px solid var(--line-strong); padding-left: 18px; }
+  .limit-item h3{ font-size:15px; font-weight:600; margin-bottom:8px; }
+  .limit-item p{ margin:0; font-size:14px; line-height:1.65; color: var(--ink-soft); }
+
+  /* role / contribution */
+  .role-list{ margin-top:44px; }
+  .role-list ul{ margin:0; padding-left:18px; color: var(--ink-soft); font-size:14.5px; line-height:1.85; columns: 2; column-gap: 40px; }
+
+  /* footer / lets talk */
+  .talk{ background: var(--dark-bg); color: #EDEDEF; padding: 100px 0 0; margin-top: 20px; }
+  .talk-inner{ text-align:center; padding-bottom: 70px; }
+  .talk h2{ font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight:700; color:#fff; }
+  .talk p{ margin: 22px auto 0; max-width: 50ch; color: var(--accent); font-size:15.5px; line-height:1.7; }
+  .talk .btn-pill{ margin-top: 34px; background:#fff; color:#111; }
+  .talk .btn-pill:hover{ background: var(--accent); color:#fff; }
+  .foot-bottom{
+    border-top: 1px solid #232329; padding: 26px 0; display:flex;
+    justify-content: space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  }
+  .foot-bottom a{ text-decoration:none; color:#B9B9C0; font-size:14px; }
+  .foot-bottom a:hover{ color:#fff; }
+  .foot-links-left, .foot-links-right{ display:flex; gap:26px; }
+
+  @media (max-width: 780px){
+    .nav-links{ display:none; }
+    .col-3{ grid-template-columns: 1fr; }
+    .stat-strip{ grid-template-columns: 1fr 1fr; }
+    .stat{ border-right:none; border-bottom:1px solid var(--line); }
+    .two-up{ grid-template-columns: 1fr; }
+    .feature-grid{ grid-template-columns: 1fr; }
+    .stack-row{ grid-template-columns: 1fr 1fr; }
+    .limit-list{ grid-template-columns: 1fr; }
+    .role-list ul{ columns: 1; }
+    .phase{ grid-template-columns: 1fr; }
+    .meta-row{ grid-template-columns: 1fr 1fr; }
+    .hero-top{ flex-direction:column; }
+    .tag-row{ justify-content:flex-start; }
+  }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="nav">
+      <a class="wordmark" href="index.html">Jason Benoit Adianto</a>
+      <nav class="nav-links">
+        <a href="index.html#top">Home</a>
+        <a href="index.html#work">Projects</a>
+        <a href="index.html#about">About me</a>
+      </nav>
+      <a class="btn-pill" href="index.html#contact">Let's connect →</a>
+    </div>
+  </header>
+
+  <div class="proj-hero">
+    <a class="eyebrow" href="index.html#work">← Back to projects</a>
+    <div class="hero-top">
+      <h1>Face Recognition Attendance System</h1>
+      <div class="tag-row">
+        <span class="tag-pill">Computer Vision</span>
+        <span class="tag-pill">Python</span>
+        <span class="tag-pill">Academic</span>
+      </div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-item">
+        <div class="label">Client</div>
+        <div class="value">Bina Nusantara University (Academic)</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Industry</div>
+        <div class="value">Education / Computer Vision</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Year</div>
+        <div class="value">2026</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Role</div>
+        <div class="value">Proposal, Report &amp; Development (6-person team)</div>
+      </div>
+    </div>
+
+    <div class="hero-banner">
+      <img src="faceattend-dashboard.jpg" alt="FaceAttend dashboard — Smart Attendance with Face Detection">
+    </div>
+
+    <div class="link-row">
+      <a class="btn-ghost" href="https://compvis-project-smart-attendance.streamlit.app" target="_blank" rel="noopener">Live app ↗</a>
+      <a class="btn-ghost" href="https://github.com/Kiyotaka-07/Compvis-Project" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn-ghost" href="https://youtu.be/3ioZFR6qBfs" target="_blank" rel="noopener">Demo video ↗</a>
+    </div>
+  </div>
+
+  <section class="tight">
+    <h2 class="section-title">About the project</h2>
+    <p class="section-lede">FaceAttend is a real-time facial recognition attendance system built for a Computer Vision course project. Roll calls and paper sign-in sheets are slow and easy to fake — FaceAttend replaces both by detecting and recognizing a student's face through a webcam and logging their attendance automatically, with no interaction needed from the student. The system runs on Haar Cascade for face detection and Local Binary Pattern Histogram (LBPH) for recognition, deliberately chosen to stay lightweight enough to run on ordinary consumer hardware rather than requiring a GPU or specialized camera.</p>
+
+    <div class="stat-strip">
+      <div class="stat">
+        <div class="num">95%</div>
+        <div class="cap">recognition accuracy across live, continuous video testing</div>
+      </div>
+      <div class="stat">
+        <div class="num">6</div>
+        <div class="cap">participants, 30 face samples each — 180 training images total</div>
+      </div>
+      <div class="stat">
+        <div class="num">20–30</div>
+        <div class="cap">FPS sustained on standard consumer-grade CPU hardware</div>
+      </div>
+      <div class="stat">
+        <div class="num">&lt;70</div>
+        <div class="cap">LBPH distance threshold used to accept a match as recognized</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">The problem</h2>
+    <p class="section-lede">Manual attendance doesn't scale cleanly, and it's easy to game — a friend can sign in on your behalf, and a roll call takes time away from actual class. As class sizes grow, keeping accurate, fraud-resistant attendance records becomes a real administrative burden.</p>
+
+    <div class="col-3">
+      <div class="card">
+        <h3>Problem</h3>
+        <ul>
+          <li><b>Time-consuming.</b> Manual signatures and roll calls eat into class time and don't scale with larger cohorts.</li>
+          <li><b>Fraud-prone.</b> Paper sign-in and verbal roll calls are easy to fake ("buddy punching").</li>
+          <li><b>Hardware-gated alternatives.</b> Many existing face-recognition systems assume expensive cameras or heavy deep-learning models, out of reach for smaller institutions.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Solution</h3>
+        <ul>
+          <li><b>Contactless recognition.</b> A webcam detects and identifies each student automatically — no card tap, no signature.</li>
+          <li><b>Lightweight pipeline.</b> Haar Cascade + LBPH run comfortably on standard PC hardware, no GPU required.</li>
+          <li><b>Self-serve dataset management.</b> Instructors can register new students, remove entries, and retrain the model from the same interface.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What we did</h3>
+        <ul>
+          <li><b>Built a six-stage CV pipeline:</b> acquisition, detection, preprocessing, training, inference, and evaluation.</li>
+          <li><b>Shipped it as a web app</b> with Streamlit and WebRTC so it runs in a browser, not just a local script.</li>
+          <li><b>Tested it live</b> with 6 participants and measured accuracy, false-accept/false-reject rates, and frame rate.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">How the pipeline works</h2>
+    <p class="section-lede">The system follows a six-stage computer vision workflow, from capturing a student's face at registration through to logging attendance from a live video stream.</p>
+
+    <div class="phase-list">
+      <div class="phase">
+        <div class="ph-num">01</div>
+        <div>
+          <h3>Data acquisition</h3>
+          <p>At registration, a student enters their name and NIM (student ID), and the webcam captures 30 face samples under slightly different poses and expressions to give the model useful variation to train on.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">02</div>
+        <div>
+          <h3>Face detection</h3>
+          <p>Each frame is converted to grayscale, then scanned by OpenCV's pre-trained Haar Cascade classifier, which looks for edge and rectangular features characteristic of a face and returns a bounding box.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">03</div>
+        <div>
+          <h3>Preprocessing</h3>
+          <p>Detected faces smaller than 120×120px are filtered out, the face is cropped to remove background, resized to a fixed 200×200px, and saved into that student's labeled dataset folder.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">04</div>
+        <div>
+          <h3>Model training (LBPH)</h3>
+          <p>Every student's folder is loaded, paired with a numeric label, and passed to OpenCV's LBPH recognizer, which learns a histogram of local texture patterns as each student's facial descriptor.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">05</div>
+        <div>
+          <h3>Attendance inference</h3>
+          <p>Live frames are detected, cropped and resized the same way, then matched against the trained model. A confidence score under 70 logs the student with a green box; 70 or above is labeled Unknown with a red box.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">06</div>
+        <div>
+          <h3>Evaluation</h3>
+          <p>Accuracy, False Acceptance Rate, False Rejection Rate and processing latency (FPS) are tracked to judge whether the system is both accurate and fast enough for real classroom use.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Tech stack</h2>
+    <p class="section-lede">The system is deployed as a browser-based app rather than a local script, so it needed real-time video streaming and safe concurrent writes built in from the start.</p>
+
+    <div class="stack-row">
+      <div class="stack-col">
+        <div class="label">Computer vision</div>
+        <div class="items">
+          <span>OpenCV</span>
+          <span>Haar Cascade Classifier</span>
+          <span>LBPH Face Recognizer</span>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="label">App &amp; streaming</div>
+        <div class="items">
+          <span>Streamlit</span>
+          <span>streamlit-webrtc</span>
+          <span>Twilio (STUN/TURN ICE)</span>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="label">Concurrency &amp; storage</div>
+        <div class="items">
+          <span>threading.Lock()</span>
+          <span>attendance_log.txt</span>
+          <span>face_model.yml + labels.pkl</span>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="label">Language</div>
+        <div class="items">
+          <span>Python</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Key features</h2>
+    <p class="section-lede">Three screens cover the full lifecycle: taking attendance, registering a new student, and managing who's in the dataset.</p>
+
+    <div class="feature-grid">
+      <div class="feature">
+        <h3><span class="f-icon">01</span>Live attendance scan</h3>
+        <p>Point the camera at a face and the system detects, recognizes, and logs attendance automatically — recognized students get a green box with their name and confidence score.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">02</span>Guided student registration</h3>
+        <p>A step-by-step flow (Fill Details → Capture Faces → Registered) walks a new student through providing their name and NIM, then auto-captures 30 face samples with a live progress counter.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">03</span>Dataset management</h3>
+        <p>View every registered person with their image count, select one or more to remove, and retrain the model in place so changes take effect immediately.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">04</span>Race-safe attendance logging</h3>
+        <p>A threading lock ensures only one video callback thread writes to the attendance log at a time, so concurrent detections can't corrupt the file or create duplicate entries.</p>
+      </div>
+    </div>
+
+    <div class="two-up">
+      <figure>
+        <img src="faceattend-live-scan.jpg" alt="FaceAttend live attendance scan with a green bounding box and recognized student name">
+        <figcaption>Live attendance scan — recognized face with confidence score</figcaption>
+      </figure>
+      <figure>
+        <img src="faceattend-register.jpg" alt="FaceAttend register new student screen with auto-capture progress">
+        <figcaption>Registering a new student — auto-capturing 30 face samples</figcaption>
+      </figure>
+    </div>
+
+    <div class="figure">
+      <img src="faceattend-manage-dataset.jpg" alt="FaceAttend manage dataset screen listing registered students and a retrain-model action">
+      <figcaption>Dataset manager — remove entries and retrain the model</figcaption>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Results &amp; limitations</h2>
+    <p class="section-lede">Tested live with 6 participants (180 training images total, 30 per person), the system reached an estimated 95% recognition accuracy while holding 20–30 FPS on ordinary CPU hardware — with a strict &lt;70 confidence threshold keeping false accepts to a minimum. The remaining ~5% error was mostly false rejections when a participant turned more than 15–20° off-frontal, since Haar Cascade is trained on near-frontal faces.</p>
+
+    <div class="limit-list">
+      <div class="limit-item">
+        <h3>Pose sensitivity</h3>
+        <p>Haar Cascade's pre-trained model is frontal-only — turning the head past roughly 15–20° causes the face to go undetected.</p>
+      </div>
+      <div class="limit-item">
+        <h3>Illumination sensitivity</h3>
+        <p>LBPH tolerates moderate lighting changes, but extreme shifts (registering in a dim room, then scanning in bright sunlight) can push the distance score past the threshold and produce a false "Unknown".</p>
+      </div>
+      <div class="limit-item">
+        <h3>No liveness detection</h3>
+        <p>The system can't yet tell a live face from a printed photo held up to the camera, leaving it open to spoofing.</p>
+      </div>
+      <div class="limit-item">
+        <h3>Flat-file storage</h3>
+        <p>Attendance is currently appended to a plain .txt log, which won't scale to long-term, large-scale use.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">My role</h2>
+    <p class="section-lede">Working within a six-person team, I contributed to the proposal, the written report, and the codebase, and ran the project's initial demo.</p>
+    <div class="role-list">
+      <ul>
+        <li>Co-authored the project proposal and final report</li>
+        <li>Contributed to the FaceAttend codebase</li>
+        <li>Ran the initial project demo</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">What's next</h2>
+    <p class="section-lede">The team scoped three concrete upgrades to take FaceAttend from a working prototype toward production: swapping Haar Cascade and LBPH for deep-learning detection and recognition (SSD or RetinaFace, plus FaceNet embeddings with an SVM) to handle pose and lighting variation more gracefully; adding blink-detection or depth-sensing liveness checks to prevent photo spoofing; and migrating attendance logs from a flat text file into a proper relational database to support real analytics, like absence-rate dashboards.</p>
+  </section>
+
+</div>
+
+<div class="talk" id="contact">
+  <div class="wrap talk-inner">
+    <h2>Let's Talk</h2>
+    <p>I'm open to internships, junior roles, and interesting collaborations. If you're working on something worth building, I'd love to hear about it.</p>
+    <a class="btn-pill" href="index.html#contact">Back to portfolio →</a>
+  </div>
+  <div class="wrap foot-bottom">
+    <div class="foot-links-left">
+      <a href="index.html#top">Home</a>
+      <a href="index.html#about">About me</a>
+      <a href="index.html#work">Projects</a>
+    </div>
+    <div class="foot-links-right">
+      <a href="https://www.linkedin.com/in/jason-adianto-829a51323/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/fishyville" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

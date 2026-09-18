@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CineWave — Case Study — Jason Benoit Adianto</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FCFCFA;
+    --surface: #F1F0EB;
+    --ink: #14151A;
+    --ink-soft: #53555E;
+    --muted: #90929A;
+    --accent: #4A3DF2;
+    --accent-tint: #ECEAFE;
+    --line: #E4E3DD;
+    --line-strong: #CFCECA;
+    --dark-bg: #0B0B10;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #101114;
+      --surface: #1A1B20;
+      --ink: #F1F1EE;
+      --ink-soft: #C2C3C8;
+      --muted: #82838B;
+      --accent: #8B80FF;
+      --accent-tint: #201F35;
+      --line: #26272D;
+      --line-strong: #35363E;
+      --dark-bg: #050506;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #101114; --surface: #1A1B20; --ink: #F1F1EE; --ink-soft: #C2C3C8;
+    --muted: #82838B; --accent: #8B80FF; --accent-tint: #201F35;
+    --line: #26272D; --line-strong: #35363E; --dark-bg: #050506;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0; background: var(--bg); color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; }
+  img{ max-width: 100%; display:block; }
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+  h1,h2,h3{ font-family: 'Space Grotesk', sans-serif; margin:0; letter-spacing:-0.01em; }
+
+  /* nav */
+  header{ padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; gap: 20px; }
+  .wordmark{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; white-space:nowrap; text-decoration:none; }
+  .nav-links{ display:flex; gap:34px; font-size:14px; color:var(--ink-soft); }
+  .nav-links a{ text-decoration:none; padding-bottom:4px; }
+  .nav-links a:hover{ color:var(--accent); }
+  .btn-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--ink); color: var(--bg);
+    padding: 11px 20px; border-radius: 999px; font-size:14px; font-weight:500;
+    text-decoration:none; white-space:nowrap; border: none; cursor:pointer;
+  }
+  .btn-pill:hover{ background: var(--accent); }
+  .btn-ghost{
+    display:inline-flex; align-items:center; gap:8px;
+    border: 1px solid var(--line-strong); color: var(--ink);
+    padding: 10px 19px; border-radius: 999px; font-size:14px; font-weight:500;
+    text-decoration:none; white-space:nowrap;
+  }
+  .btn-ghost:hover{ border-color: var(--accent); color: var(--accent); }
+
+  /* project hero */
+  .proj-hero{ padding: 56px 0 40px; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-size:14px; color: var(--ink-soft);
+    text-decoration:none; margin-bottom: 26px;
+  }
+  .eyebrow:hover{ color: var(--accent); }
+  .hero-top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 24px; flex-wrap:wrap; }
+  .proj-hero h1{ font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight:700; max-width: 16ch; line-height:1.05; }
+  .tag-row{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+  .tag-pill{
+    font-size:12.5px; padding:6px 14px; border-radius:999px;
+    border:1px solid var(--line-strong); color: var(--ink-soft); white-space:nowrap;
+  }
+
+  .meta-row{
+    margin-top: 46px; display:grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; border-top: 1px solid var(--line); padding-top: 26px;
+  }
+  .meta-item .label{ font-size:12.5px; color: var(--muted); margin-bottom:6px; }
+  .meta-item .value{ font-size:16px; font-weight:600; }
+  .meta-item .value a{ text-decoration:none; }
+  .meta-item .value a:hover{ color: var(--accent); }
+
+  .hero-banner{
+    margin-top: 40px; border-radius: 18px; overflow:hidden;
+    border: 1px solid var(--line-strong); background: var(--surface);
+  }
+
+  section{ padding: 70px 0; }
+  section.tight{ padding-top: 0; }
+  .section-title{ font-size: clamp(1.7rem, 3vw, 2.2rem); font-weight:700; }
+  .section-lede{ margin: 16px 0 0; max-width: 62ch; color: var(--ink-soft); font-size:15.5px; line-height:1.75; }
+
+  /* three-col challenge/solution/what */
+  .col-3{ margin-top: 44px; display:grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card{
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 26px;
+  }
+  .card h3{ font-size:17px; font-weight:600; margin-bottom:14px; }
+  .card ul{ margin:0; padding-left:18px; color: var(--ink-soft); font-size:14.5px; line-height:1.7; }
+  .card ul li{ margin-bottom:10px; }
+  .card ul li:last-child{ margin-bottom:0; }
+  .card ul li b{ color: var(--ink); font-weight:600; }
+
+  /* stat strip */
+  .stat-strip{
+    margin-top: 44px; display:grid; grid-template-columns: repeat(4,1fr); gap:20px;
+    border: 1px solid var(--line); border-radius: 14px; overflow:hidden;
+  }
+  .stat{ padding: 26px 22px; border-right: 1px solid var(--line); }
+  .stat:last-child{ border-right:none; }
+  .stat .num{ font-family:'Space Grotesk',sans-serif; font-size: 30px; font-weight:700; color: var(--accent); }
+  .stat .cap{ margin-top:6px; font-size:13px; color: var(--ink-soft); line-height:1.5; }
+
+  /* figure block */
+  .figure{ margin-top: 44px; }
+  .figure img{
+    border-radius: 14px; border: 1px solid var(--line-strong); background: var(--surface);
+  }
+  .figure figcaption{ margin-top:14px; font-size:13.5px; color: var(--muted); text-align:center; }
+
+  .two-up{ margin-top: 44px; display:grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items:start; }
+  .two-up figcaption{ margin-top:14px; font-size:13.5px; color: var(--muted); text-align:center; }
+  .two-up img{ border-radius: 14px; border: 1px solid var(--line-strong); background: var(--surface); }
+
+  /* process phases */
+  .phase-list{ margin-top: 44px; display:flex; flex-direction:column; gap: 0; }
+  .phase{
+    display:grid; grid-template-columns: 90px 1fr; gap: 24px;
+    padding: 26px 0; border-top: 1px solid var(--line);
+  }
+  .phase:last-child{ border-bottom: 1px solid var(--line); }
+  .phase .ph-num{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color: var(--muted); padding-top:2px; }
+  .phase h3{ font-size:17px; font-weight:600; margin-bottom:8px; }
+  .phase p{ margin:0; color: var(--ink-soft); font-size:14.5px; line-height:1.7; max-width: 68ch; }
+
+  /* feature grid */
+  .feature-grid{ margin-top: 44px; display:grid; grid-template-columns: repeat(2,1fr); gap: 22px; }
+  .feature{
+    border: 1px solid var(--line); border-radius: 14px; padding: 24px;
+  }
+  .feature h3{ font-size:16px; font-weight:600; margin-bottom:10px; display:flex; align-items:center; gap:10px; }
+  .feature .f-icon{
+    width:32px; height:32px; border-radius:8px; background: var(--accent-tint);
+    display:flex; align-items:center; justify-content:center; color: var(--accent); flex-shrink:0;
+  }
+  .feature p{ margin:0; font-size:14px; line-height:1.65; color: var(--ink-soft); }
+
+  /* tech stack */
+  .stack-row{ margin-top: 44px; display:grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+  .stack-col .label{ font-size:12.5px; color: var(--muted); margin-bottom:12px; text-transform:none; }
+  .stack-col .items{ display:flex; flex-direction:column; gap:8px; }
+  .stack-col .items span{ font-size:14.5px; font-weight:500; }
+
+  /* role / contribution */
+  .role-list{ margin-top:44px; display:grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .role-list ul{ margin:0; padding-left:18px; color: var(--ink-soft); font-size:14.5px; line-height:1.85; }
+
+  /* footer / lets talk */
+  .talk{ background: var(--dark-bg); color: #EDEDEF; padding: 100px 0 0; margin-top: 20px; }
+  .talk-inner{ text-align:center; padding-bottom: 70px; }
+  .talk h2{ font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight:700; color:#fff; }
+  .talk p{ margin: 22px auto 0; max-width: 50ch; color: var(--accent); font-size:15.5px; line-height:1.7; }
+  .talk .btn-pill{ margin-top: 34px; background:#fff; color:#111; }
+  .talk .btn-pill:hover{ background: var(--accent); color:#fff; }
+  .foot-bottom{
+    border-top: 1px solid #232329; padding: 26px 0; display:flex;
+    justify-content: space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  }
+  .foot-bottom a{ text-decoration:none; color:#B9B9C0; font-size:14px; }
+  .foot-bottom a:hover{ color:#fff; }
+  .foot-links-left, .foot-links-right{ display:flex; gap:26px; }
+
+  @media (max-width: 780px){
+    .nav-links{ display:none; }
+    .col-3{ grid-template-columns: 1fr; }
+    .stat-strip{ grid-template-columns: 1fr 1fr; }
+    .stat{ border-right:none; border-bottom:1px solid var(--line); }
+    .two-up{ grid-template-columns: 1fr; }
+    .feature-grid{ grid-template-columns: 1fr; }
+    .stack-row{ grid-template-columns: 1fr 1fr; }
+    .role-list{ grid-template-columns: 1fr; }
+    .phase{ grid-template-columns: 1fr; }
+    .meta-row{ grid-template-columns: 1fr 1fr; }
+    .hero-top{ flex-direction:column; }
+    .tag-row{ justify-content:flex-start; }
+  }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="nav">
+      <a class="wordmark" href="index.html">Jason Benoit Adianto</a>
+      <nav class="nav-links">
+        <a href="index.html#top">Home</a>
+        <a href="index.html#work">Projects</a>
+        <a href="index.html#about">About me</a>
+      </nav>
+      <a class="btn-pill" href="index.html#contact">Let's connect →</a>
+    </div>
+  </header>
+
+  <div class="proj-hero">
+    <a class="eyebrow" href="index.html#work">← Back to projects</a>
+    <div class="hero-top">
+      <h1>Cinema Ticket Booking Platform</h1>
+      <div class="tag-row">
+        <span class="tag-pill">WebApp</span>
+        <span class="tag-pill">Booking</span>
+        <span class="tag-pill">Team Project</span>
+      </div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-item">
+        <div class="label">Client</div>
+        <div class="value">Binus IT Division (Academic)</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Industry</div>
+        <div class="value">Entertainment / Ticketing</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Year</div>
+        <div class="value">2024</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Role</div>
+        <div class="value">Frontend Developer, UI/UX &amp; Data-Flow Design</div>
+      </div>
+    </div>
+
+    <div class="hero-banner">
+      <img src="cinewave-hero-search.png" alt="CineWave homepage — search movies or theaters">
+    </div>
+  </div>
+
+  <section class="tight">
+    <h2 class="section-title">About the project</h2>
+    <p class="section-lede">CineWave is a cinema ticket booking platform built for a Software Engineering group project at Binus University. It lets people search for a movie or theater, check real-time seat availability, reserve seats, and pay online — replacing the manual, in-person process of queueing at the counter to buy a ticket and pick a seat. I worked on it with two teammates as a three-person full-stack build, with my focus on the data-flow design and the frontend experience.</p>
+
+    <div class="stat-strip">
+      <div class="stat">
+        <div class="num">3</div>
+        <div class="cap">developers, full-stack across frontend, backend &amp; database</div>
+      </div>
+      <div class="stat">
+        <div class="num">6</div>
+        <div class="cap">database tables modeled — users, movies, showtimes, tickets, seat reservations, payments</div>
+      </div>
+      <div class="stat">
+        <div class="num">10+</div>
+        <div class="cap">user-facing features, from auth to seat maps to payment history</div>
+      </div>
+      <div class="stat">
+        <div class="num">~2</div>
+        <div class="cap">weeks, planned and tracked on a day-by-day backlog</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">The problem</h2>
+    <p class="section-lede">Booking a cinema ticket in person means queueing to buy, queueing again to pick a seat, and hoping the seat map the staff shows you is actually up to date. As theaters listed more films across more showtimes, that manual process became slower and more error-prone — for both moviegoers and the theater managing the counter.</p>
+
+    <div class="col-3">
+      <div class="card">
+        <h3>Problem</h3>
+        <ul>
+          <li><b>Slow, in-person booking.</b> Buying a ticket and choosing a seat required visiting the venue and waiting in line.</li>
+          <li><b>Stale availability.</b> Manually tracked seat maps and schedules were prone to booking errors and outdated seat counts.</li>
+          <li><b>No self-serve history.</b> Moviegoers had no easy way to look back at past payments or tickets.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Solution</h3>
+        <ul>
+          <li><b>Search &amp; browse online.</b> Find movies or theaters by keyword and region from the homepage.</li>
+          <li><b>Live seat map.</b> A visual seat grid reflects real-time availability, pulled straight from the database.</li>
+          <li><b>Self-serve accounts.</b> Payment history and ticket history pages let users track bookings without asking staff.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What we did</h3>
+        <ul>
+          <li><b>Mapped the data flow first:</b> concept map, ERD and DFD before writing a line of UI code.</li>
+          <li><b>Split ownership</b> across auth, payments, and frontend so each of the 3 developers could build in parallel.</li>
+          <li><b>Wired up real payments</b> end to end using Midtrans' sandbox to simulate bank-transfer checkout.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">How we built it</h2>
+    <p class="section-lede">We ran a hybrid SDLC: Waterfall for the upfront planning and documentation (architecture, database design, task ownership), then Agile-style prioritization once development started, so we could reorder features as integration surfaced new blockers.</p>
+
+    <div class="phase-list">
+      <div class="phase">
+        <div class="ph-num">01</div>
+        <div>
+          <h3>Planning &amp; data-flow design</h3>
+          <p>Before any UI, we defined the tech stack and the client-server architecture, then I designed the concept map and Data Flow Diagram against the ERD so every screen had a clear source of data before we built it.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">02</div>
+        <div>
+          <h3>Parallel frontend &amp; backend builds</h3>
+          <p>Backend work (auth, CRUD APIs, payment integration) and frontend components (homepage, navigation, movie pages, seat reservation) were built in parallel against the shared ERD, tracked on a day-by-day backlog.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">03</div>
+        <div>
+          <h3>Integration &amp; payment wiring</h3>
+          <p>Frontend components were connected to the live API, then the payment flow was integrated with Midtrans' sandbox, followed by a normalization pass (a new GroupTicket table) to support multi-seat bookings cleanly.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">04</div>
+        <div>
+          <h3>Polish, data seeding &amp; testing</h3>
+          <p>We seeded the database with dummy movies and showtimes, tightened the visual design across every page, and tested the frontend-to-API integration end to end before submission.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Architecture</h2>
+    <p class="section-lede">CineWave follows a client-server model: a React + TypeScript frontend talks to a Node.js/Express API, which handles authentication (Passport.js + JWT), CRUD against SQL Server, and payment processing through Midtrans.</p>
+    <figure class="figure">
+      <img src="cinewave-architecture.jpg" alt="CineWave client-server architecture diagram: React frontend, Node/Express backend, SQL Server database, Passport.js/JWT auth, Midtrans payments">
+      <figcaption>Client-server architecture — frontend, backend, database, auth and payment layers</figcaption>
+    </figure>
+
+    <div class="stack-row">
+      <div class="stack-col">
+        <div class="label">Frontend</div>
+        <div class="items">
+          <span>React + TypeScript</span>
+          <span>Tailwind CSS</span>
+          <span>React Router</span>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="label">Backend</div>
+        <div class="items">
+          <span>Node.js</span>
+          <span>Express.js</span>
+          <span>Passport.js + JWT</span>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="label">Data &amp; payments</div>
+        <div class="items">
+          <span>SQL Server</span>
+          <span>mssql (Node driver)</span>
+          <span>Midtrans (sandbox)</span>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="label">Process</div>
+        <div class="items">
+          <span>Hybrid Waterfall + Agile</span>
+          <span>Git branch workflow</span>
+          <span>Windows 11</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Data model</h2>
+    <p class="section-lede">Six related tables anchor the app: users, movies, theaters and showtimes on one side, and tickets, seat reservations and payments on the other — with a later GroupTicket table added to keep multi-seat bookings from denormalizing the core ticket record.</p>
+    <figure class="figure">
+      <img src="cinewave-erd.jpg" alt="CineWave entity-relationship diagram covering users, movies, theaters, showtimes, tickets, seat reservations and payments">
+      <figcaption>Entity-relationship diagram (ERD)</figcaption>
+    </figure>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Key features</h2>
+    <p class="section-lede">Every feature maps to a step in the booking journey — from finding a film to holding on to the ticket afterward.</p>
+
+    <div class="feature-grid">
+      <div class="feature">
+        <h3><span class="f-icon">01</span>Authentication &amp; route protection</h3>
+        <p>Login, register and logout via Passport.js Local Strategy and JWT. Sensitive pages and endpoints are locked behind a valid token.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">02</span>Search &amp; region filtering</h3>
+        <p>Keyword search across movies and theaters, plus filtering by region so results only show showtimes actually playing nearby.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">03</span>Movie details</h3>
+        <p>Synopsis, trailer, poster, director, producer, age rating, duration and language — all served from the database and rendered per film.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">04</span>Live seat reservation</h3>
+        <p>A visual seat map reflects available, reserved and selected seats in real time, backed by POST/DELETE calls against the seat reservation table.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">05</span>Payment processing</h3>
+        <p>Checkout is handled through Midtrans' sandbox, simulating bank-transfer (virtual account) payment with a cancel-booking path if payment isn't completed.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">06</span>Payment history &amp; my tickets</h3>
+        <p>Users can look back at past orders and booked tickets at any time, without needing to ask the box office.</p>
+      </div>
+    </div>
+
+    <div class="two-up">
+      <figure>
+        <img src="cinewave-seat-select.png" alt="CineWave seat selection screen with a live seat map">
+        <figcaption>Seat selection — live availability</figcaption>
+      </figure>
+      <figure>
+        <img src="cinewave-payment-history.png" alt="CineWave payment history table">
+        <figcaption>Payment history — self-serve order lookup</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">My role</h2>
+    <p class="section-lede">Working alongside two teammates on backend, auth and payments, I owned the data-flow design and most of the frontend surface.</p>
+    <div class="role-list">
+      <ul>
+        <li>Designed the Data Flow Diagram from the ERD and the agreed process flow, before frontend work started</li>
+        <li>Designed the UI/UX for the site end to end</li>
+        <li>Built the homepage and navigation bar components</li>
+      </ul>
+      <ul>
+        <li>Built the Now Playing and Upcoming Movies pages</li>
+        <li>Built seat reservation and payment confirmation components</li>
+        <li>Built the Theaters list page and the FAQ page</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Reflection</h2>
+    <p class="section-lede">Node.js and Express were chosen over the ASP.NET stack more familiar from coursework specifically because Indonesian payment methods (bank transfer, e-wallets like GoPay and DANA) had far better-supported libraries in the Node ecosystem — a reminder that the "expected" stack isn't always the right one for the market you're actually building for. Splitting frontend and backend into separate codebases also paid off: each of us could work, test with Postman, and debug our own layer without blocking the others.</p>
+  </section>
+
+</div>
+
+<div class="talk" id="contact">
+  <div class="wrap talk-inner">
+    <h2>Let's Talk</h2>
+    <p>I'm open to internships, junior roles, and interesting collaborations. If you're working on something worth building, I'd love to hear about it.</p>
+    <a class="btn-pill" href="index.html#contact">Back to portfolio →</a>
+  </div>
+  <div class="wrap foot-bottom">
+    <div class="foot-links-left">
+      <a href="index.html#top">Home</a>
+      <a href="index.html#about">About me</a>
+      <a href="index.html#work">Projects</a>
+    </div>
+    <div class="foot-links-right">
+      <a href="https://www.linkedin.com/in/jason-adianto-829a51323/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/fishyville" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
