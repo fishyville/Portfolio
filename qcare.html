@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>QCare — Case Study — Jason Benoit Adianto</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FCFCFA;
+    --surface: #F1F0EB;
+    --ink: #14151A;
+    --ink-soft: #53555E;
+    --muted: #90929A;
+    --accent: #4A3DF2;
+    --accent-tint: #ECEAFE;
+    --line: #E4E3DD;
+    --line-strong: #CFCECA;
+    --dark-bg: #0B0B10;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #101114;
+      --surface: #1A1B20;
+      --ink: #F1F1EE;
+      --ink-soft: #C2C3C8;
+      --muted: #82838B;
+      --accent: #8B80FF;
+      --accent-tint: #201F35;
+      --line: #26272D;
+      --line-strong: #35363E;
+      --dark-bg: #050506;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #101114; --surface: #1A1B20; --ink: #F1F1EE; --ink-soft: #C2C3C8;
+    --muted: #82838B; --accent: #8B80FF; --accent-tint: #201F35;
+    --line: #26272D; --line-strong: #35363E; --dark-bg: #050506;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0; background: var(--bg); color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; }
+  img{ max-width: 100%; display:block; }
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+  h1,h2,h3{ font-family: 'Space Grotesk', sans-serif; margin:0; letter-spacing:-0.01em; }
+
+  /* nav */
+  header{ padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; gap: 20px; }
+  .wordmark{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; white-space:nowrap; text-decoration:none; }
+  .nav-links{ display:flex; gap:34px; font-size:14px; color:var(--ink-soft); }
+  .nav-links a{ text-decoration:none; padding-bottom:4px; }
+  .nav-links a:hover{ color:var(--accent); }
+  .btn-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--ink); color: var(--bg);
+    padding: 11px 20px; border-radius: 999px; font-size:14px; font-weight:500;
+    text-decoration:none; white-space:nowrap; border: none; cursor:pointer;
+  }
+  .btn-pill:hover{ background: var(--accent); }
+  .btn-ghost{
+    display:inline-flex; align-items:center; gap:8px;
+    border: 1px solid var(--line-strong); color: var(--ink);
+    padding: 10px 19px; border-radius: 999px; font-size:14px; font-weight:500;
+    text-decoration:none; white-space:nowrap;
+  }
+  .btn-ghost:hover{ border-color: var(--accent); color: var(--accent); }
+  .link-row{ margin-top: 28px; display:flex; gap: 12px; flex-wrap:wrap; }
+
+  /* project hero */
+  .proj-hero{ padding: 56px 0 40px; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-size:14px; color: var(--ink-soft);
+    text-decoration:none; margin-bottom: 26px;
+  }
+  .eyebrow:hover{ color: var(--accent); }
+  .hero-top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 24px; flex-wrap:wrap; }
+  .proj-hero h1{ font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight:700; max-width: 16ch; line-height:1.05; }
+  .tag-row{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+  .tag-pill{
+    font-size:12.5px; padding:6px 14px; border-radius:999px;
+    border:1px solid var(--line-strong); color: var(--ink-soft); white-space:nowrap;
+  }
+
+  .meta-row{
+    margin-top: 46px; display:grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; border-top: 1px solid var(--line); padding-top: 26px;
+  }
+  .meta-item .label{ font-size:12.5px; color: var(--muted); margin-bottom:6px; }
+  .meta-item .value{ font-size:16px; font-weight:600; }
+  .meta-item .value a{ text-decoration:none; }
+  .meta-item .value a:hover{ color: var(--accent); }
+
+  .hero-banner{
+    margin-top: 40px; border-radius: 18px;
+    border: 1px solid var(--line-strong); background: var(--surface);
+    overflow:hidden; display:flex; justify-content:center;
+  }
+  .hero-banner img{ width:100%; max-width: 640px; height:auto; display:block; }
+
+  section{ padding: 70px 0; }
+  section.tight{ padding-top: 0; }
+  .section-title{ font-size: clamp(1.7rem, 3vw, 2.2rem); font-weight:700; }
+  .section-lede{ margin: 16px 0 0; max-width: 62ch; color: var(--ink-soft); font-size:15.5px; line-height:1.75; }
+
+  /* three-col challenge/solution/what */
+  .col-3{ margin-top: 44px; display:grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card{
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 26px;
+  }
+  .card h3{ font-size:17px; font-weight:600; margin-bottom:14px; }
+  .card ul{ margin:0; padding-left:18px; color: var(--ink-soft); font-size:14.5px; line-height:1.7; }
+  .card ul li{ margin-bottom:10px; }
+  .card ul li:last-child{ margin-bottom:0; }
+  .card ul li b{ color: var(--ink); font-weight:600; }
+
+  /* stat strip */
+  .stat-strip{
+    margin-top: 44px; display:grid; grid-template-columns: repeat(4,1fr); gap:20px;
+    border: 1px solid var(--line); border-radius: 14px; overflow:hidden;
+  }
+  .stat{ padding: 26px 22px; border-right: 1px solid var(--line); }
+  .stat:last-child{ border-right:none; }
+  .stat .num{ font-family:'Space Grotesk',sans-serif; font-size: 30px; font-weight:700; color: var(--accent); }
+  .stat .cap{ margin-top:6px; font-size:13px; color: var(--ink-soft); line-height:1.5; }
+
+  /* figure block */
+  .figure{ margin-top: 44px; }
+  .figure .imgwrap{
+    border-radius: 14px; border: 1px solid var(--line-strong); background: var(--surface);
+    overflow:auto; display:flex; justify-content:center;
+  }
+  .figure .imgwrap img{ width:100%; max-width: 620px; height:auto; display:block; }
+  .figure figcaption{ margin-top:14px; font-size:13.5px; color: var(--muted); text-align:center; }
+
+  .two-up{ margin-top: 44px; display:grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items:start; }
+  .two-up figcaption{ margin-top:14px; font-size:13.5px; color: var(--muted); text-align:center; }
+  .two-up .imgwrap{
+    border-radius: 14px; border: 1px solid var(--line-strong); background: var(--surface);
+    overflow:hidden; display:flex; justify-content:center; align-items:center;
+  }
+  .two-up .imgwrap img{ width:100%; height:auto; display:block; }
+
+  /* process phases */
+  .phase-list{ margin-top: 44px; display:flex; flex-direction:column; gap: 0; }
+  .phase{
+    display:grid; grid-template-columns: 90px 1fr; gap: 24px;
+    padding: 26px 0; border-top: 1px solid var(--line);
+  }
+  .phase:last-child{ border-bottom: 1px solid var(--line); }
+  .phase .ph-num{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color: var(--muted); padding-top:2px; }
+  .phase h3{ font-size:17px; font-weight:600; margin-bottom:8px; }
+  .phase p{ margin:0; color: var(--ink-soft); font-size:14.5px; line-height:1.7; max-width: 68ch; }
+
+  /* feature grid */
+  .feature-grid{ margin-top: 44px; display:grid; grid-template-columns: repeat(2,1fr); gap: 22px; }
+  .feature{
+    border: 1px solid var(--line); border-radius: 14px; padding: 24px;
+  }
+  .feature h3{ font-size:16px; font-weight:600; margin-bottom:10px; display:flex; align-items:center; gap:10px; }
+  .feature .f-icon{
+    width:32px; height:32px; border-radius:8px; background: var(--accent-tint);
+    display:flex; align-items:center; justify-content:center; color: var(--accent); flex-shrink:0;
+  }
+  .feature p{ margin:0; font-size:14px; line-height:1.65; color: var(--ink-soft); }
+
+  /* tech stack */
+  .stack-row{ margin-top: 44px; display:grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+  .stack-col .label{ font-size:12.5px; color: var(--muted); margin-bottom:12px; text-transform:none; }
+  .stack-col .items{ display:flex; flex-direction:column; gap:8px; }
+  .stack-col .items span{ font-size:14.5px; font-weight:500; }
+
+  /* golden rules list */
+  .rules-grid{ margin-top:44px; display:grid; grid-template-columns: 1fr 1fr; gap: 18px 32px; }
+  .rule-item{ display:flex; gap:14px; }
+  .rule-item .rn{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color: var(--accent);
+    width:24px; flex-shrink:0; padding-top:2px;
+  }
+  .rule-item h3{ font-size:14.5px; font-weight:600; margin-bottom:4px; }
+  .rule-item p{ margin:0; font-size:13.5px; line-height:1.6; color: var(--ink-soft); }
+
+  /* role / contribution table */
+  .team-table{ margin-top:44px; border: 1px solid var(--line); border-radius: 14px; overflow:hidden; }
+  .team-row{
+    display:grid; grid-template-columns: 1fr 1fr 2fr; gap: 16px;
+    padding: 18px 22px; border-top: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .team-row:first-child{ border-top:none; }
+  .team-row.head{ font-size:12.5px; color: var(--muted); background: var(--surface); }
+  .team-row .name{ font-weight:600; }
+  .team-row .role{ color: var(--ink-soft); }
+  .team-row .contrib{ color: var(--ink-soft); }
+  .team-row.me{ background: var(--accent-tint); }
+
+  /* footer / lets talk */
+  .talk{ background: var(--dark-bg); color: #EDEDEF; padding: 100px 0 0; margin-top: 20px; }
+  .talk-inner{ text-align:center; padding-bottom: 70px; }
+  .talk h2{ font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight:700; color:#fff; }
+  .talk p{ margin: 22px auto 0; max-width: 50ch; color: var(--accent); font-size:15.5px; line-height:1.7; }
+  .talk .btn-pill{ margin-top: 34px; background:#fff; color:#111; }
+  .talk .btn-pill:hover{ background: var(--accent); color:#fff; }
+  .foot-bottom{
+    border-top: 1px solid #232329; padding: 26px 0; display:flex;
+    justify-content: space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  }
+  .foot-bottom a{ text-decoration:none; color:#B9B9C0; font-size:14px; }
+  .foot-bottom a:hover{ color:#fff; }
+  .foot-links-left, .foot-links-right{ display:flex; gap:26px; }
+
+  @media (max-width: 780px){
+    .nav-links{ display:none; }
+    .col-3{ grid-template-columns: 1fr; }
+    .stat-strip{ grid-template-columns: 1fr 1fr; }
+    .stat{ border-right:none; border-bottom:1px solid var(--line); }
+    .two-up{ grid-template-columns: 1fr; }
+    .feature-grid{ grid-template-columns: 1fr; }
+    .stack-row{ grid-template-columns: 1fr 1fr; }
+    .rules-grid{ grid-template-columns: 1fr; }
+    .team-row{ grid-template-columns: 1fr; gap:4px; }
+    .phase{ grid-template-columns: 1fr; }
+    .meta-row{ grid-template-columns: 1fr 1fr; }
+    .hero-top{ flex-direction:column; }
+    .tag-row{ justify-content:flex-start; }
+    .hero-banner{ max-height: 300px; padding: 18px; }
+    .hero-banner img{ max-height: 260px; }
+    .figure .imgwrap{ height: 260px; padding: 16px; }
+    .two-up .imgwrap{ height: 240px; padding: 14px; }
+  }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="nav">
+      <a class="wordmark" href="index.html">Jason Benoit Adianto</a>
+      <nav class="nav-links">
+        <a href="index.html#top">Home</a>
+        <a href="index.html#work">Projects</a>
+        <a href="index.html#about">About me</a>
+      </nav>
+      <a class="btn-pill" href="index.html#contact">Let's connect →</a>
+    </div>
+  </header>
+
+  <div class="proj-hero">
+    <a class="eyebrow" href="index.html#work">← Back to projects</a>
+    <div class="hero-top">
+      <h1>Clinic Queue Booking Platform</h1>
+      <div class="tag-row">
+        <span class="tag-pill">Healthcare</span>
+        <span class="tag-pill">WebApp</span>
+        <span class="tag-pill">Solo</span>
+      </div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-item">
+        <div class="label">Client</div>
+        <div class="value">Bina Nusantara University (Academic)</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Industry</div>
+        <div class="value">Healthcare / Clinic Operations</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Year</div>
+        <div class="value">2026</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Role</div>
+        <div class="value">Scrum Master &amp; Backend Developer</div>
+      </div>
+    </div>
+
+    <div class="hero-banner">
+      <img src="qcare-figma-dashboard.png" alt="QCare booking dashboard prototype — complaint, review and confirmation steps">
+    </div>
+
+    <div class="link-row">
+      <a class="btn-ghost" href="https://github.com/fishyville/QCare" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn-ghost" href="https://www.figma.com/design/zQSXEoOTARPTr5wm7g7d5J/Qcare" target="_blank" rel="noopener">Figma prototype ↗</a>
+    </div>
+  </div>
+
+  <section class="tight">
+    <h2 class="section-title">About the project</h2>
+    <p class="section-lede">QCare is a web app that replaces a clinic's paper queue number and walk-in sign-in with online booking. Patients describe their complaint, pick an open appointment slot, and track their position and estimated wait time from their phone — while doctors get their own dashboard to move patients from waiting to in-session to done, and admins can register new doctors into the system. I was Scrum Master and a backend developer on a five-person team, building it over four one-week sprints.</p>
+
+    <div class="stat-strip">
+      <div class="stat">
+        <div class="num">5</div>
+        <div class="cap">team members across backend, frontend and QA</div>
+      </div>
+      <div class="stat">
+        <div class="num">4</div>
+        <div class="cap">weekly Scrum sprints, from account setup to deployment</div>
+      </div>
+      <div class="stat">
+        <div class="num">13</div>
+        <div class="cap">black-box test scenarios, all passing</div>
+      </div>
+      <div class="stat">
+        <div class="num">3</div>
+        <div class="cap">roles served — patient, doctor and admin, each with their own view</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">The problem</h2>
+    <p class="section-lede">Manual clinic queues mean showing up in person just to get a number, then waiting with no real sense of when you'll actually be seen. For the clinic, paper-based patient and schedule records are easy to mismanage and make it hard for staff to track who's next.</p>
+
+    <div class="col-3">
+      <div class="card">
+        <h3>Problem</h3>
+        <ul>
+          <li><b>In-person-only registration.</b> Patients have to visit the clinic just to join the queue and get a number.</li>
+          <li><b>Unpredictable waits.</b> With no visibility into queue position or estimated time, patients over- or under-estimate when to arrive.</li>
+          <li><b>Manual record-keeping.</b> Paper-based patient data, schedules and queue status are error-prone and hard for staff to monitor.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Solution</h3>
+        <ul>
+          <li><b>Book online.</b> Patients describe their complaint and pick an available appointment slot from anywhere.</li>
+          <li><b>Live queue status.</b> A real-time position and wait-time estimate replaces guessing.</li>
+          <li><b>Role-based dashboards.</b> Separate views for patients, doctors and admins keep each side focused on what they need.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What I did</h3>
+        <ul>
+          <li><b>Ran the Scrum process:</b> planned each sprint's scope and led sprint reviews as Scrum Master.</li>
+          <li><b>Built core backend APIs</b> for login, register, and appointment booking.</li>
+          <li><b>Set up the project</b> and owned deployment once development wrapped.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">How we built it — Agile Scrum</h2>
+    <p class="section-lede">The team ran four one-week sprints, each with its own focus, planned and reviewed through standard Scrum ceremonies (sprint planning, daily scrum, backlog refinement, sprint review, retrospective). As Scrum Master, I set the sprint schedule and requirements alongside our product owner.</p>
+
+    <div class="phase-list">
+      <div class="phase">
+        <div class="ph-num">S1</div>
+        <div>
+          <h3>Accounts (4–11 May)</h3>
+          <p>Login and register, including biodata, email and phone number — the foundation that let both patients and clinic staff get into the system under their own role.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">S2</div>
+        <div>
+          <h3>Booking &amp; queue (12–20 May)</h3>
+          <p>Complaint input, appointment time selection with priority for whoever books a slot first, a live queue-count display, and the admin page for adding doctors.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">S3</div>
+        <div>
+          <h3>Live queue &amp; notifications (21–28 May)</h3>
+          <p>The current-queue view, wait-time estimation, appointment cancellation, notifications, and bug fixes carried over from Sprint 2.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="ph-num">S4</div>
+        <div>
+          <h3>Polish &amp; deployment (29 May–4 June)</h3>
+          <p>Final refinements, Sprint 3 bug fixes, and deploying the app so QCare could be used online.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">System design</h2>
+    <p class="section-lede">Before writing frontend code, the team modeled the system with UML: a use-case diagram to map out who does what, a class diagram for the core data, and a sequence diagram to trace exactly how a booking moves through the system.</p>
+
+    <div class="figure">
+      <div class="imgwrap">
+        <img src="qcare-usecase.png" alt="QCare use case diagram with Pasien, Dokter, Admin and System actors">
+      </div>
+      <figcaption>Use case diagram — Patient, Doctor, Admin and System</figcaption>
+    </div>
+
+    <div class="two-up">
+      <figure>
+        <div class="imgwrap">
+          <img src="qcare-classdiagram.png" alt="QCare class diagram showing User, Appointment and Doctor classes">
+        </div>
+        <figcaption>Class diagram — User, Appointment, Doctor</figcaption>
+      </figure>
+      <figure>
+        <div class="imgwrap">
+          <img src="qcare-sequence.png" alt="QCare booking appointment sequence diagram between Patient, System, Queue and Staff/Doctor">
+        </div>
+        <figcaption>Booking appointment sequence diagram</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Tech stack</h2>
+    <p class="section-lede">QCare runs as a hosted web app on a managed backend, chosen to keep infrastructure overhead low for a four-sprint academic timeline.</p>
+
+    <div class="stack-row">
+      <div class="stack-col">
+        <div class="label">Design</div>
+        <div class="items">
+          <span>Figma prototype</span>
+          <span>UML (Use Case, Class, Sequence, Activity, State)</span>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="label">Backend &amp; data</div>
+        <div class="items">
+          <span>Supabase (DB + auth)</span>
+          <span>REST APIs</span>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="label">Hosting</div>
+        <div class="items">
+          <span>Vercel</span>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="label">Process</div>
+        <div class="items">
+          <span>Agile Scrum</span>
+          <span>4 weekly sprints</span>
+          <span>GitHub</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Key features</h2>
+    <p class="section-lede">Every screen maps to a step in the patient's visit — or to what the clinic needs to keep it running.</p>
+
+    <div class="feature-grid">
+      <div class="feature">
+        <h3><span class="f-icon">01</span>Account login &amp; register</h3>
+        <p>Patients sign up with name, email, phone and password, then log in to book — the account layer built in Sprint 1.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">02</span>Guided appointment booking</h3>
+        <p>A step indicator (Keluhan → Review → Konfirmasi) walks patients through describing their complaint and picking an open time slot; already-booked slots are locked from selection.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">03</span>Live queue tracking</h3>
+        <p>After booking, patients see their queue number, people ahead of them, and an estimated wait time — with a confirm-to-cancel modal to prevent accidental cancellations.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">04</span>Doctor dashboard</h3>
+        <p>Doctors see today's total, completed and waiting patient counts, a progress bar, and the active session — moving a patient's status from Waiting to Ongoing to Done with a running timer.</p>
+      </div>
+    </div>
+
+    <div class="two-up">
+      <figure>
+        <div class="imgwrap">
+          <img src="qcare-dev-login.png" alt="QCare login screen — Selamat datang kembali">
+        </div>
+        <figcaption>Login — patients sign in before booking</figcaption>
+      </figure>
+      <figure>
+        <div class="imgwrap">
+          <img src="qcare-figma-queue.png" alt="QCare Antrianmu queue-status screen with queue number and wait estimate">
+        </div>
+        <figcaption>Antrianmu — queue number and wait-time estimate</figcaption>
+      </figure>
+    </div>
+
+    <div class="figure">
+      <div class="imgwrap">
+        <img src="qcare-dev-doctor-queue.png" alt="QCare doctor dashboard listing today's queue with Selesai and Menunggu statuses">
+      </div>
+      <figcaption>Doctor dashboard — today's queue, live from Supabase</figcaption>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Testing &amp; UX evaluation</h2>
+    <p class="section-lede">QCare was tested two ways: black-box testing against 13 functional scenarios (login, booking, cancellation, doctor status changes, admin doctor registration, notifications — all passing), and a UX review against Shneiderman's Eight Golden Rules of Interface Design.</p>
+
+    <div class="rules-grid">
+      <div class="rule-item">
+        <div class="rn">01</div>
+        <div>
+          <h3>Strive for consistency</h3>
+          <p>One layout, palette (white, light grey, pink accent) and button style across every page.</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rn">02</div>
+        <div>
+          <h3>Enable shortcuts</h3>
+          <p>A step indicator and time-slot grid shorten the booking flow to a few taps.</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rn">03</div>
+        <div>
+          <h3>Offer informative feedback</h3>
+          <p>Booking confirmations, live queue status, a real-time exam timer, and turn notifications.</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rn">04</div>
+        <div>
+          <h3>Design dialogs to yield closure</h3>
+          <p>A confirmation screen with queue number and wait estimate marks booking as clearly done.</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rn">05</div>
+        <div>
+          <h3>Prevent errors</h3>
+          <p>Booked slots lock automatically and required fields (complaint, time) can't be skipped.</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rn">06</div>
+        <div>
+          <h3>Permit easy reversal</h3>
+          <p>Patients can cancel while waiting, with a confirmation modal to catch accidental taps.</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rn">07</div>
+        <div>
+          <h3>Support internal locus of control</h3>
+          <p>Patients control scheduling and cancellation; doctors control when a session starts and ends.</p>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rn">08</div>
+        <div>
+          <h3>Reduce short-term memory load</h3>
+          <p>Queue number, position, people ahead, and wait time are all shown on-screen at once.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Team &amp; my role</h2>
+    <p class="section-lede">As Scrum Master, I split my time between coordinating the sprint process and writing backend code alongside four teammates.</p>
+
+    <div class="team-table">
+      <div class="team-row head">
+        <div>Name</div>
+        <div>Role</div>
+        <div>Contribution</div>
+      </div>
+      <div class="team-row me">
+        <div class="name">Jason Benoit Adianto</div>
+        <div class="role">Scrum Master / Backend Developer</div>
+        <div class="contrib">Set sprint schedule &amp; requirements, built login/register/appointment APIs, set up the project</div>
+      </div>
+      <div class="team-row">
+        <div class="name">Andrew</div>
+        <div class="role">Frontend Developer</div>
+        <div class="contrib">Built login, register, patient dashboard and doctor dashboard; website testing</div>
+      </div>
+      <div class="team-row">
+        <div class="name">Braven</div>
+        <div class="role">Frontend Developer</div>
+        <div class="contrib">Assisted on login, register, patient dashboard and doctor dashboard</div>
+      </div>
+      <div class="team-row">
+        <div class="name">Jacky</div>
+        <div class="role">Frontend Developer</div>
+        <div class="contrib">Built the Admin page</div>
+      </div>
+      <div class="team-row">
+        <div class="name">Stanley</div>
+        <div class="role">Backend Developer</div>
+        <div class="contrib">Built the notification feature</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="talk" id="contact">
+  <div class="wrap talk-inner">
+    <h2>Let's Talk</h2>
+    <p>I'm open to internships, junior roles, and interesting collaborations. If you're working on something worth building, I'd love to hear about it.</p>
+    <a class="btn-pill" href="index.html#contact">Back to portfolio →</a>
+  </div>
+  <div class="wrap foot-bottom">
+    <div class="foot-links-left">
+      <a href="index.html#top">Home</a>
+      <a href="index.html#about">About me</a>
+      <a href="index.html#work">Projects</a>
+    </div>
+    <div class="foot-links-right">
+      <a href="https://www.linkedin.com/in/jason-adianto-829a51323/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/fishyville" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
