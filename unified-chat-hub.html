@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unified Chat Hub — Case Study — Jason Benoit Adianto</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FCFCFA;
+    --surface: #F1F0EB;
+    --ink: #14151A;
+    --ink-soft: #53555E;
+    --muted: #90929A;
+    --accent: #4A3DF2;
+    --accent-tint: #ECEAFE;
+    --line: #E4E3DD;
+    --line-strong: #CFCECA;
+    --dark-bg: #0B0B10;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #101114;
+      --surface: #1A1B20;
+      --ink: #F1F1EE;
+      --ink-soft: #C2C3C8;
+      --muted: #82838B;
+      --accent: #8B80FF;
+      --accent-tint: #201F35;
+      --line: #26272D;
+      --line-strong: #35363E;
+      --dark-bg: #050506;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #101114; --surface: #1A1B20; --ink: #F1F1EE; --ink-soft: #C2C3C8;
+    --muted: #82838B; --accent: #8B80FF; --accent-tint: #201F35;
+    --line: #26272D; --line-strong: #35363E; --dark-bg: #050506;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0; background: var(--bg); color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; }
+  img{ max-width: 100%; display:block; }
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+  h1,h2,h3{ font-family: 'Space Grotesk', sans-serif; margin:0; letter-spacing:-0.01em; }
+
+  /* nav */
+  header{ padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; gap: 20px; }
+  .wordmark{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; white-space:nowrap; text-decoration:none; }
+  .nav-links{ display:flex; gap:34px; font-size:14px; color:var(--ink-soft); }
+  .nav-links a{ text-decoration:none; padding-bottom:4px; }
+  .nav-links a:hover{ color:var(--accent); }
+  .btn-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--ink); color: var(--bg);
+    padding: 11px 20px; border-radius: 999px; font-size:14px; font-weight:500;
+    text-decoration:none; white-space:nowrap; border: none; cursor:pointer;
+  }
+  .btn-pill:hover{ background: var(--accent); }
+  .btn-ghost{
+    display:inline-flex; align-items:center; gap:8px;
+    border: 1px solid var(--line-strong); color: var(--ink);
+    padding: 10px 19px; border-radius: 999px; font-size:14px; font-weight:500;
+    text-decoration:none; white-space:nowrap;
+  }
+  .btn-ghost:hover{ border-color: var(--accent); color: var(--accent); }
+  .link-row{ margin-top: 28px; display:flex; gap: 12px; flex-wrap:wrap; }
+
+  /* project hero */
+  .proj-hero{ padding: 56px 0 40px; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-size:14px; color: var(--ink-soft);
+    text-decoration:none; margin-bottom: 26px;
+  }
+  .eyebrow:hover{ color: var(--accent); }
+  .hero-top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 24px; flex-wrap:wrap; }
+  .proj-hero h1{ font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight:700; max-width: 20ch; line-height:1.05; }
+  .tag-row{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+  .tag-pill{
+    font-size:12.5px; padding:6px 14px; border-radius:999px;
+    border:1px solid var(--line-strong); color: var(--ink-soft); white-space:nowrap;
+  }
+
+  .meta-row{
+    margin-top: 46px; display:grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; border-top: 1px solid var(--line); padding-top: 26px;
+  }
+  .meta-item .label{ font-size:12.5px; color: var(--muted); margin-bottom:6px; }
+  .meta-item .value{ font-size:16px; font-weight:600; }
+  .meta-item .value a{ text-decoration:none; }
+  .meta-item .value a:hover{ color: var(--accent); }
+
+  .hero-banner{
+    margin-top: 40px; border-radius: 18px;
+    border: 1px solid var(--line-strong); background: var(--surface);
+    display:flex; justify-content:center; align-items:center;
+    padding: 20px; overflow:hidden;
+  }
+  .hero-banner img{
+    max-height: 420px; width:auto; max-width:100%; height:auto;
+    border-radius: 8px; box-shadow: 0 12px 28px rgba(20,21,26,0.14);
+  }
+  .hero-caption{ margin-top:14px; font-size:13px; color: var(--muted); text-align:center; }
+
+  section{ padding: 70px 0; }
+  section.tight{ padding-top: 0; }
+  .section-title{ font-size: clamp(1.7rem, 3vw, 2.2rem); font-weight:700; }
+  .section-lede{ margin: 16px 0 0; max-width: 66ch; color: var(--ink-soft); font-size:15.5px; line-height:1.75; }
+
+  /* three-col challenge/solution/what */
+  .col-3{ margin-top: 44px; display:grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card{
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 26px;
+  }
+  .card h3{ font-size:17px; font-weight:600; margin-bottom:14px; }
+  .card ul{ margin:0; padding-left:18px; color: var(--ink-soft); font-size:14.5px; line-height:1.7; }
+  .card ul li{ margin-bottom:10px; }
+  .card ul li:last-child{ margin-bottom:0; }
+  .card ul li b{ color: var(--ink); font-weight:600; }
+
+  /* diagram figure */
+  .figure{ margin-top: 44px; }
+  .figure .imgwrap{
+    border-radius: 14px; border: 1px solid var(--line-strong); background: var(--surface);
+    display:flex; justify-content:center; align-items:center;
+    padding: 20px; overflow:auto;
+  }
+  .figure .imgwrap svg{ width:100%; height:auto; max-width: 980px; }
+  .figure figcaption{ margin-top:14px; font-size:13.5px; color: var(--muted); text-align:center; }
+
+  /* feature grid */
+  .feature-grid{ margin-top: 44px; display:grid; grid-template-columns: repeat(2,1fr); gap: 22px; }
+  .feature{
+    border: 1px solid var(--line); border-radius: 14px; padding: 24px;
+  }
+  .feature h3{ font-size:16px; font-weight:600; margin-bottom:10px; display:flex; align-items:center; gap:10px; }
+  .feature .f-icon{
+    width:32px; height:32px; border-radius:8px; background: var(--accent-tint);
+    display:flex; align-items:center; justify-content:center; color: var(--accent); flex-shrink:0;
+  }
+  .feature p{ margin:0; font-size:14px; line-height:1.65; color: var(--ink-soft); }
+
+  /* tech stack */
+  .stack-row{ margin-top: 44px; display:grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+  .stack-col .label{ font-size:12.5px; color: var(--muted); margin-bottom:12px; text-transform:none; }
+  .stack-col .items{ display:flex; flex-direction:column; gap:8px; }
+  .stack-col .items span{ font-size:14.5px; font-weight:500; }
+
+  /* note / callout */
+  .callout{
+    margin-top: 44px; border-left: 3px solid var(--accent); background: var(--accent-tint);
+    border-radius: 0 12px 12px 0; padding: 18px 22px;
+  }
+  .callout p{ margin:0; font-size:14px; line-height:1.7; color: var(--ink); }
+  .callout p b{ font-weight:600; }
+
+  /* footer / lets talk */
+  .talk{ background: var(--dark-bg); color: #EDEDEF; padding: 100px 0 0; margin-top: 20px; }
+  .talk-inner{ text-align:center; padding-bottom: 70px; }
+  .talk h2{ font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight:700; color:#fff; }
+  .talk p{ margin: 22px auto 0; max-width: 50ch; color: var(--accent); font-size:15.5px; line-height:1.7; }
+  .talk .btn-pill{ margin-top: 34px; background:#fff; color:#111; }
+  .talk .btn-pill:hover{ background: var(--accent); color:#fff; }
+  .foot-bottom{
+    border-top: 1px solid #232329; padding: 26px 0; display:flex;
+    justify-content: space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  }
+  .foot-bottom a{ text-decoration:none; color:#B9B9C0; font-size:14px; }
+  .foot-bottom a:hover{ color:#fff; }
+  .foot-links-left, .foot-links-right{ display:flex; gap:26px; }
+
+  @media (max-width: 780px){
+    .nav-links{ display:none; }
+    .col-3{ grid-template-columns: 1fr; }
+    .feature-grid{ grid-template-columns: 1fr; }
+    .stack-row{ grid-template-columns: 1fr 1fr; }
+    .meta-row{ grid-template-columns: 1fr 1fr; }
+    .hero-top{ flex-direction:column; }
+    .tag-row{ justify-content:flex-start; }
+    .hero-banner img{ max-height: 260px; }
+    .figure .imgwrap{ padding: 12px; }
+  }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="nav">
+      <a class="wordmark" href="index.html">Jason Benoit Adianto</a>
+      <nav class="nav-links">
+        <a href="index.html#top">Home</a>
+        <a href="index.html#work">Projects</a>
+        <a href="index.html#about">About me</a>
+      </nav>
+      <a class="btn-pill" href="index.html#contact">Let's connect →</a>
+    </div>
+  </header>
+
+  <div class="proj-hero">
+    <a class="eyebrow" href="index.html#work">← Back to projects</a>
+    <div class="hero-top">
+      <h1>WhatsApp &amp; WeChat Messaging Client</h1>
+      <div class="tag-row">
+        <span class="tag-pill">Messaging</span>
+        <span class="tag-pill">API Integration</span>
+        <span class="tag-pill">Real-time</span>
+      </div>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-item">
+        <div class="label">Client</div>
+        <div class="value">Third-party business platform (prototype)</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Industry</div>
+        <div class="value">Business Messaging / CRM</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Year</div>
+        <div class="value">2026</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">Role</div>
+        <div class="value">Full-stack Developer</div>
+      </div>
+    </div>
+
+    <div class="hero-banner">
+      <img src="unified-chat-hub-inbox.jpg" alt="Unified inbox interface listing WhatsApp and WeChat contacts on the left with a message thread on the right">
+    </div>
+    <p class="hero-caption">Contact names and IDs shown are placeholders — replaced before publishing to protect the real client data that appeared in the original screenshot.</p>
+
+    <div class="link-row">
+      <a class="btn-ghost" href="https://github.com/fishyville/WeChatWhatsappMVC" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+
+  <section class="tight">
+    <h2 class="section-title">About the project</h2>
+    <p class="section-lede">This project puts WhatsApp and WeChat conversations behind a single inbox instead of two separate apps. Every connected contact — whether they message in on WhatsApp or WeChat — shows up in one sidebar, tagged with a small channel icon, so a support team can see and reply to everything without switching tools. It's built as a prototype for integrating both messaging APIs into a third party's existing business platform.</p>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">The problem</h2>
+    <p class="section-lede">WhatsApp and WeChat don't share an inbox. A business that talks to customers on both ends up running two separate apps side by side, with conversation history split across platforms and no single place to see who's waiting on a reply.</p>
+
+    <div class="col-3">
+      <div class="card">
+        <h3>Problem</h3>
+        <ul>
+          <li><b>Split inboxes.</b> Agents juggle the native WhatsApp Business app and WeChat's own client separately.</li>
+          <li><b>Context switching.</b> Moving between two apps per customer slows response time and risks missed messages.</li>
+          <li><b>No shared history.</b> There's no single timeline of a customer relationship that spans both channels.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Solution</h3>
+        <ul>
+          <li><b>One inbox, both channels.</b> Every contact appears in a single list, with a small icon marking WhatsApp or WeChat.</li>
+          <li><b>Real-time sync.</b> Messages from either API land in the same thread view as soon as they arrive.</li>
+          <li><b>Consistent thread UI.</b> Timestamps and bubbles render the same way regardless of source channel.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What I did</h3>
+        <ul>
+          <li><b>Integrated both APIs</b> — WhatsApp Business API and WeChat's Official Account API — into one backend.</li>
+          <li><b>Built the webhook listeners</b> that receive inbound messages from each provider and normalize them into a shared format.</li>
+          <li><b>Built the inbox UI</b> shown here, including the per-conversation channel indicator.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">How the integration works</h2>
+    <p class="section-lede">WhatsApp and WeChat each have their own webhook format and their own API for sending messages back out. The integration layer's job is to hide that difference: both channels get normalized into one message model before anything reaches the database or the UI, so the rest of the app never has to know which provider a conversation came from.</p>
+
+    <div class="figure">
+      <div class="imgwrap">
+        <svg viewBox="0 0 1080 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram of WhatsApp and WeChat API integration flowing through a webhook integration layer into a unified database and inbox UI">
+          <defs>
+            <marker id="arrowend" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" style="fill:var(--accent)"/>
+            </marker>
+          </defs>
+
+          <line x1="244" y1="108" x2="322" y2="185" style="stroke:var(--accent); stroke-width:2" marker-start="url(#arrowend)" marker-end="url(#arrowend)"/>
+          <line x1="244" y1="302" x2="322" y2="250" style="stroke:var(--accent); stroke-width:2" marker-start="url(#arrowend)" marker-end="url(#arrowend)"/>
+          <line x1="596" y1="218" x2="654" y2="218" style="stroke:var(--accent); stroke-width:2" marker-start="url(#arrowend)" marker-end="url(#arrowend)"/>
+          <line x1="860" y1="218" x2="916" y2="218" style="stroke:var(--accent); stroke-width:2" marker-start="url(#arrowend)" marker-end="url(#arrowend)"/>
+
+          <g style="font-family:'Inter',sans-serif; font-size:11px;">
+            <rect x="222" y="132" width="112" height="34" rx="6" style="fill:var(--bg)"/>
+            <text x="278" y="145" text-anchor="middle" style="fill:var(--ink-soft)">Webhook (in)</text>
+            <text x="278" y="159" text-anchor="middle" style="fill:var(--ink-soft)">Send API (out)</text>
+
+            <rect x="222" y="222" width="112" height="34" rx="6" style="fill:var(--bg)"/>
+            <text x="278" y="235" text-anchor="middle" style="fill:var(--ink-soft)">Webhook (in)</text>
+            <text x="278" y="249" text-anchor="middle" style="fill:var(--ink-soft)">Send API (out)</text>
+
+            <rect x="598" y="192" width="52" height="16" rx="5" style="fill:var(--bg)"/>
+            <text x="624" y="204" text-anchor="middle" style="font-size:9.5px; fill:var(--ink-soft)">read/write</text>
+
+            <rect x="863" y="192" width="50" height="16" rx="5" style="fill:var(--bg)"/>
+            <text x="888" y="204" text-anchor="middle" style="font-size:9.5px; fill:var(--ink-soft)">live sync</text>
+          </g>
+
+          <rect x="30" y="70" width="212" height="70" rx="12" style="fill:var(--surface); stroke:var(--line-strong); stroke-width:1.4"/>
+          <text x="136" y="99" text-anchor="middle" style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; fill:var(--ink)">WhatsApp</text>
+          <text x="136" y="117" text-anchor="middle" style="font-family:'Inter',sans-serif; font-size:11.5px; fill:var(--ink-soft)">Business API</text>
+
+          <rect x="30" y="270" width="212" height="70" rx="12" style="fill:var(--surface); stroke:var(--line-strong); stroke-width:1.4"/>
+          <text x="136" y="299" text-anchor="middle" style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; fill:var(--ink)">WeChat</text>
+          <text x="136" y="317" text-anchor="middle" style="font-family:'Inter',sans-serif; font-size:11.5px; fill:var(--ink-soft)">Official Account API</text>
+
+          <rect x="330" y="145" width="260" height="145" rx="14" style="fill:var(--accent-tint); stroke:var(--accent); stroke-width:1.6"/>
+          <text x="460" y="175" text-anchor="middle" style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14.5px; fill:var(--ink)">Integration Layer</text>
+          <line x1="356" y1="187" x2="564" y2="187" style="stroke:var(--line-strong); stroke-width:1"/>
+          <text x="460" y="207" text-anchor="middle" style="font-family:'Inter',sans-serif; font-size:12px; fill:var(--ink-soft)">Webhook listener (per channel)</text>
+          <text x="460" y="228" text-anchor="middle" style="font-family:'Inter',sans-serif; font-size:12px; fill:var(--ink-soft)">Channel adapter</text>
+          <text x="460" y="249" text-anchor="middle" style="font-family:'Inter',sans-serif; font-size:12px; fill:var(--ink-soft)">Message normalizer</text>
+          <text x="460" y="273" text-anchor="middle" style="font-family:'Inter',sans-serif; font-size:11px; fill:var(--muted); font-style:italic">one data model, either source</text>
+
+          <rect x="660" y="180" width="196" height="76" rx="12" style="fill:var(--surface); stroke:var(--line-strong); stroke-width:1.4"/>
+          <text x="758" y="209" text-anchor="middle" style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13.5px; fill:var(--ink)">Unified Message</text>
+          <text x="758" y="226" text-anchor="middle" style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13.5px; fill:var(--ink)">Store</text>
+          <text x="758" y="243" text-anchor="middle" style="font-family:'Inter',sans-serif; font-size:11px; fill:var(--muted)">contacts · threads · timestamps</text>
+
+          <rect x="920" y="180" width="150" height="76" rx="12" style="fill:var(--ink); stroke:var(--ink); stroke-width:1.4"/>
+          <text x="995" y="209" text-anchor="middle" style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13.5px; fill:var(--bg)">Inbox UI</text>
+          <text x="995" y="226" text-anchor="middle" style="font-family:'Inter',sans-serif; font-size:11px; fill:var(--bg)">this app</text>
+          <text x="995" y="242" text-anchor="middle" style="font-family:'Inter',sans-serif; font-size:10.5px; fill:var(--bg); opacity:0.75">one shared thread view</text>
+        </svg>
+      </div>
+      <figcaption>Both channels are normalized into one message model before they reach the database or the UI</figcaption>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Tech stack</h2>
+    <p class="section-lede">The stack is split cleanly along the same lines as the diagram above: a channel layer that speaks each provider's protocol, and an app layer that only ever deals with one normalized message format.</p>
+
+    <div class="stack-row">
+      <div class="stack-col">
+        <div class="label">Messaging APIs</div>
+        <div class="items">
+          <span>WhatsApp Business API</span>
+          <span>WeChat Official Account API</span>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="label">Integration</div>
+        <div class="items">
+          <span>Webhook listeners</span>
+          <span>Channel adapters</span>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="label">Architecture</div>
+        <div class="items">
+          <span>MVC</span>
+          <span>Unified message store</span>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="label">Frontend</div>
+        <div class="items">
+          <span>Real-time inbox UI</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <h2 class="section-title">Key features</h2>
+    <p class="section-lede">The interface above is the agent-facing side of the integration — everything a support team needs to work both channels from one screen.</p>
+
+    <div class="feature-grid">
+      <div class="feature">
+        <h3><span class="f-icon">01</span>Unified contact list</h3>
+        <p>Every connected WhatsApp and WeChat contact appears in one sidebar, each marked with a small channel icon next to their number or ID.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">02</span>Real-time message sync</h3>
+        <p>Inbound messages from either provider's webhook appear in the thread immediately, without a manual refresh.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">03</span>Company / contact search</h3>
+        <p>A search bar over the contact list lets an agent jump straight to a specific client's thread.</p>
+      </div>
+      <div class="feature">
+        <h3><span class="f-icon">04</span>Consistent thread view</h3>
+        <p>Message bubbles, timestamps and date dividers render the same way no matter which API the conversation came in on.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="callout">
+    <p><b>A note on the screenshot:</b> the original interface listed real client company names and account IDs. Every name, phone number and WeChat ID visible above has been replaced with a placeholder before publishing this case study.</p>
+  </div>
+
+</div>
+
+<div class="talk" id="contact">
+  <div class="wrap talk-inner">
+    <h2>Let's Talk</h2>
+    <p>I'm open to internships, junior roles, and interesting collaborations. If you're working on something worth building, I'd love to hear about it.</p>
+    <a class="btn-pill" href="index.html#contact">Back to portfolio →</a>
+  </div>
+  <div class="wrap foot-bottom">
+    <div class="foot-links-left">
+      <a href="index.html#top">Home</a>
+      <a href="index.html#about">About me</a>
+      <a href="index.html#work">Projects</a>
+    </div>
+    <div class="foot-links-right">
+      <a href="https://www.linkedin.com/in/jason-adianto-829a51323/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/fishyville" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
